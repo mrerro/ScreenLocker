@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class DbController {
 
     private Connection connect() {
-        String url = "jdbc:sqlite:src/students.db";
+        String url = "jdbc:sqlite:students.db";
         Connection conn = null;
         try {
             conn = DriverManager.getConnection(url);
