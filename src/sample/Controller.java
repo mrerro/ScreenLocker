@@ -7,7 +7,7 @@ import javafx.scene.control.TextField;
 public class Controller {
 
 
-    DbController db = new DbController();
+    private DbController db = new DbController();
 
     @FXML
     private Button btCheck;
@@ -19,6 +19,6 @@ public class Controller {
     //1017103
     @FXML
     public void onButtonClick() {
-        btCheck.setText(db.checkforvalidity(Integer.parseInt(sNumber.getText().toLowerCase()), sSurname.getText()).toString());
+        btCheck.setText(db.checkforvalidity(Integer.parseInt(sNumber.getText()), sSurname.getText().toLowerCase()).toString());
     }
 }
