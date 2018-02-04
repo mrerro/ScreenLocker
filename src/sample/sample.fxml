@@ -16,6 +16,7 @@
         <ColumnConstraints />
       <ColumnConstraints />
       <ColumnConstraints />
+      <ColumnConstraints />
     </columnConstraints>
     <rowConstraints>
         <RowConstraints />
@@ -37,4 +38,5 @@
    </ImageView>
    <TextField fx:id="numberSheets" GridPane.columnIndex="1" GridPane.rowIndex="3" />
    <Label text="Количество листов:" GridPane.rowIndex="3" />
+   <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeButtonAction" text="Button" GridPane.columnIndex="4" GridPane.rowIndex="5" />
 </GridPane>
