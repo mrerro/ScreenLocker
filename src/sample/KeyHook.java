@@ -30,6 +30,7 @@ public class KeyHook {
                                 switch (info.vkCode){
                                     case 0x5B:
                                     case 0x5C:
+                                    case 0x73:
                                         return new LRESULT(1);
                                     default: //do nothing
                                 }
