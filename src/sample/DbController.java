@@ -1,10 +1,8 @@
 package sample;
 
-import java.sql.DriverManager;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class DbController {
 
@@ -39,6 +37,11 @@ public class DbController {
     }
 
     public void update_access_data(int number, int numberOfSheets) {
+        write_total(number, numberOfSheets);
+        write_access(number, numberOfSheets);
+    }
+
+    private void write_total(int number, int numberOfSheets) {
         String sql = "SELECT number, totalsheets  FROM total WHERE number = " + number;
         int total_sheets = 0;
         try (Connection conn = this.connect();
@@ -77,4 +80,25 @@ public class DbController {
             System.out.println(e.getMessage());
         }
     }
+
+    private void write_access(int number, int numberOfSheets) {
+        String sql = "SELECT * FROM physics WHERE number = " + number;
+        try (Connection conn = this.connect();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery(sql)) {
+            while (rs.next()) {
+                if (number == rs.getInt("number")) {
+                    sql = "INSERT INTO access (datetime,name,surname,patronymic,number,numberofsheets) VALUES ('" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+ "','" + rs.getString("name").toLowerCase() + "','" + rs.getString("surname").toLowerCase() + "','" + rs.getString("patronymic").toLowerCase() + "'," + rs.getString("number").toLowerCase() + "," + numberOfSheets + ")";
+                    try {
+                        stmt.execute(sql);
+                    } catch (SQLException e) {
+                        System.out.println(e.getMessage());
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 }
