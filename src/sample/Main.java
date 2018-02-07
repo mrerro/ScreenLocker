@@ -15,8 +15,8 @@ public class Main extends Application {
         primaryStage.setTitle("Check mazafaking database");
         primaryStage.setScene(new Scene(root, 1024, 768));
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        //primaryStage.setAlwaysOnTop(true);
-        //primaryStage.setMaximized(true);
+        primaryStage.setAlwaysOnTop(true);
+        primaryStage.setMaximized(true);
         KeyHook.blockWindowsKey();
         primaryStage.show();
     }

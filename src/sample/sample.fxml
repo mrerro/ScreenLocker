@@ -40,7 +40,7 @@
    </ImageView>
    <TextField fx:id="numberSheets" GridPane.columnIndex="1" GridPane.rowIndex="3" />
    <Label text="Количество листов:" GridPane.rowIndex="3" />
-   <Button fx:id="closeButton" mnemonicParsing="false" onAction="#closeButtonAction" text="Выход" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+   <Button fx:id="adminButton" mnemonicParsing="false" onAction="#adminButtonAction" text="Выгрузка отчетов" GridPane.columnIndex="4" GridPane.rowIndex="5" />
    <Label fx:id="status" GridPane.columnIndex="3" GridPane.rowIndex="3">
       <font>
          <Font name="System Bold" size="12.0" />

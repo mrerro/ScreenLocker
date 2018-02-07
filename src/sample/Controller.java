@@ -1,12 +1,17 @@
 package sample;
 
-import com.sun.jna.platform.win32.WinDef;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class Controller {
 
@@ -21,11 +26,17 @@ public class Controller {
     @FXML
     private TextField numberSheets;
     @FXML
-    private Button closeButton;
+    private Button adminButton;
     @FXML
     private Label status;
     @FXML
     private Label statusexit;
+    @FXML
+    private Button closeButton;
+    @FXML
+    private Button backButton;
+    @FXML
+    private TextArea report;
 
     //1017103
     @FXML
@@ -51,15 +62,19 @@ public class Controller {
     }
 
     @FXML
-    private void closeButtonAction() {
+    private void adminButtonAction() throws IOException {
         if (!"".equals(sNumber.getText())) {
             if (1 == Integer.parseInt(sNumber.getText())) {
-                KeyHook.unblockWindowsKey();
-                // get a handle to the stage
-                stage = (Stage) closeButton.getScene().getWindow();
-                // do what you have to do
-                stage.close();
-                System.exit(1);
+                statusexit.setText("");
+                status.setText("");
+                sNumber.setText("");
+                sSurname.setText("");
+                numberSheets.setText("");
+                stage = (Stage) adminButton.getScene().getWindow();
+                Parent adminpanel = FXMLLoader.load(getClass().getResource("adminpanel.fxml"));
+                stage.setScene(new Scene(adminpanel ,1024,768));
+                stage.setAlwaysOnTop(false);
+                stage.setMaximized(false);
             } else {
                 statusexit.setTextFill(Color.DARKCYAN);
                 statusexit.setText("Скажи друг и входи..");
@@ -71,8 +86,32 @@ public class Controller {
         }
     }
 
-    private void give_access() {
+    @FXML
+    private void aboutButtonAction(){
+        report.setText("Screen locker\nAutor: John Dyakov\nDyakov.hellvisionstudio@gmail.com");
+    }
+
+    @FXML
+    private void backButtonAction() throws IOException {
+        stage = (Stage) backButton.getScene().getWindow();
+        Parent sample = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        stage.setScene(new Scene(sample ,1024,768));
+        stage.setAlwaysOnTop(true);
+        stage.setMaximized(true);
+    }
+
+    @FXML
+    private void closeButtonAction() {
+        KeyHook.unblockWindowsKey();
+        // get a handle to the stage
         stage = (Stage) closeButton.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+        System.exit(1);
+    }
+
+    private void give_access() {
+        stage = (Stage) adminButton.getScene().getWindow();
         stage.hide();
         final long start = System.currentTimeMillis();
         final long duration = 4 * 60 * 1000;
