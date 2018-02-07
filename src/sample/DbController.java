@@ -1,5 +1,7 @@
 package sample;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -12,14 +14,13 @@ public class DbController {
         try {
             conn = DriverManager.getConnection(url);
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            write_error_to_log(e.getMessage());
         }
         return conn;
     }
 
     public Boolean check_for_validity(int number, String surname) {
         String sql = "SELECT surname, number FROM physics";
-
         try (Connection conn = this.connect();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery(sql)) {
@@ -31,7 +32,7 @@ public class DbController {
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            write_error_to_log(e.getMessage());
         }
         return false;
     }
@@ -60,7 +61,7 @@ public class DbController {
                 try {
                     stmt.execute(sql);
                 } catch (SQLException e) {
-                    System.out.println(e.getMessage());
+                    write_error_to_log(e.getMessage());
                 }
             } else {
                 sql = "SELECT * FROM physics WHERE number = " + number;
@@ -70,14 +71,14 @@ public class DbController {
                     try {
                         stmt.execute(sql);
                     } catch (SQLException e) {
-                        System.out.println(e.getMessage());
+                        write_error_to_log(e.getMessage());
                     }
                 } catch (SQLException e) {
-                    System.out.println(e.getMessage());
+                    write_error_to_log(e.getMessage());
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            write_error_to_log(e.getMessage());
         }
     }
 
@@ -92,12 +93,24 @@ public class DbController {
                     try {
                         stmt.execute(sql);
                     } catch (SQLException e) {
-                        System.out.println(e.getMessage());
+                        write_error_to_log(e.getMessage());
                     }
                 }
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            write_error_to_log(e.getMessage());
+        }
+    }
+
+    private void write_error_to_log(String error){
+        try(FileWriter writer = new FileWriter("errorlog.txt", false))
+        {
+            writer.write(error);
+            writer.append('\n');
+            writer.flush();
+        }
+        catch(IOException ex){
+            System.out.println(ex.getMessage());
         }
     }
 
