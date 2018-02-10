@@ -31,7 +31,7 @@
     <Button fx:id="btCheck" mnemonicParsing="false" onAction="#onButtonClick" text="Начать работу с принтером" GridPane.columnIndex="1" GridPane.rowIndex="5" />
     <TextField fx:id="sNumber" GridPane.columnIndex="1" />
     <TextField fx:id="sSurname" prefHeight="0.0" prefWidth="149.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-    <Label text="Студенческий номер:" />
+    <Label text="Профсоюзный билет:" />
     <Label text="Фамилия:" GridPane.rowIndex="1" />
    <ImageView fitHeight="500.0" fitWidth="500.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3" GridPane.rowIndex="4">
       <image>
@@ -40,7 +40,7 @@
    </ImageView>
    <TextField fx:id="numberSheets" GridPane.columnIndex="1" GridPane.rowIndex="3" />
    <Label text="Количество листов:" GridPane.rowIndex="3" />
-   <Button fx:id="adminButton" mnemonicParsing="false" onAction="#adminButtonAction" text="Выгрузка отчетов" GridPane.columnIndex="4" GridPane.rowIndex="5" />
+   <Button fx:id="adminButton" mnemonicParsing="false" onAction="#adminButtonAction" text="Отчет" GridPane.columnIndex="4" GridPane.rowIndex="5" />
    <Label fx:id="status" GridPane.columnIndex="3" GridPane.rowIndex="3">
       <font>
          <Font name="System Bold" size="12.0" />
