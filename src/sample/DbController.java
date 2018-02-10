@@ -1,7 +1,9 @@
 package sample;
 
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -40,6 +42,65 @@ public class DbController {
     public void update_access_data(int number, int numberOfSheets) {
         write_total(number, numberOfSheets);
         write_access(number, numberOfSheets);
+    }
+
+    public void generate_report(String[] students) {
+        generate_total_report(students);
+        generate_access_report(students);
+    }
+
+    private void generate_access_report(String[] students) {
+        String sql = "SELECT *  FROM access";
+        if (!students[0].equals("*")) {
+            sql = sql.concat(" WHERE number = ").concat(students[0]);
+            for (int i = 1; i < students.length; i++) {
+                sql = sql.concat(" OR number = ").concat(students[i]);
+            }
+        }
+        String filename = new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date()).toString() + "_access.csv";
+        try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filename, false), "cp1251")) {
+            try (Connection conn = this.connect();
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sql)) {
+                while (rs.next()) {
+                    String text = rs.getString("datetime").toLowerCase() + ";" + rs.getString("name").toLowerCase() + ";" + rs.getString("surname").toLowerCase() + ";" + rs.getString("patronymic").toLowerCase() + ";" + rs.getString("number").toLowerCase() + ";" + rs.getString("numberofsheets").toLowerCase() + "\n";
+                    writer.write(text);
+                    writer.flush();
+                }
+            } catch (SQLException e) {
+                write_error_to_log(e.getMessage());
+            }
+            writer.close();
+        } catch (IOException ex) {
+            write_error_to_log(ex.getMessage());
+        }
+    }
+
+    private void generate_total_report(String[] students) {
+        String sql = "SELECT *  FROM total";
+        if (!students[0].equals("*")) {
+            sql = sql.concat(" WHERE number = ").concat(students[0]);
+            for (int i = 1; i < students.length; i++) {
+                sql = sql.concat(" OR number = ").concat(students[i]);
+            }
+        }
+        String filename = new SimpleDateFormat("yyyy-MM-dd_HH-mm").format(new Date()).toString() + "_total.csv";
+        try (OutputStreamWriter writer = new OutputStreamWriter(new FileOutputStream(filename, false), "cp1251")) {
+            try (Connection conn = this.connect();
+                 Statement stmt = conn.createStatement();
+                 ResultSet rs = stmt.executeQuery(sql)) {
+                while (rs.next()) {
+                    String text = rs.getString("name").toLowerCase() + ";" + rs.getString("surname").toLowerCase() + ";" + rs.getString("patronymic").toLowerCase() + ";" + rs.getString("number").toLowerCase() + ";" + rs.getString("totalsheets").toLowerCase() + "\n";
+                    writer.write(text);
+                    writer.flush();
+                }
+            } catch (SQLException e) {
+                write_error_to_log(e.getMessage());
+            }
+            writer.close();
+        } catch (IOException ex) {
+            write_error_to_log(ex.getMessage());
+        }
     }
 
     private void write_total(int number, int numberOfSheets) {
@@ -89,7 +150,7 @@ public class DbController {
              ResultSet rs = stmt.executeQuery(sql)) {
             while (rs.next()) {
                 if (number == rs.getInt("number")) {
-                    sql = "INSERT INTO access (datetime,name,surname,patronymic,number,numberofsheets) VALUES ('" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+ "','" + rs.getString("name").toLowerCase() + "','" + rs.getString("surname").toLowerCase() + "','" + rs.getString("patronymic").toLowerCase() + "'," + rs.getString("number").toLowerCase() + "," + numberOfSheets + ")";
+                    sql = "INSERT INTO access (datetime,name,surname,patronymic,number,numberofsheets) VALUES ('" + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + "','" + rs.getString("name").toLowerCase() + "','" + rs.getString("surname").toLowerCase() + "','" + rs.getString("patronymic").toLowerCase() + "'," + rs.getString("number").toLowerCase() + "," + numberOfSheets + ")";
                     try {
                         stmt.execute(sql);
                     } catch (SQLException e) {
@@ -102,14 +163,12 @@ public class DbController {
         }
     }
 
-    private void write_error_to_log(String error){
-        try(FileWriter writer = new FileWriter("errorlog.txt", false))
-        {
+    private void write_error_to_log(String error) {
+        try (FileWriter writer = new FileWriter("errorlog.txt", false)) {
             writer.write(error);
             writer.append('\n');
             writer.flush();
-        }
-        catch(IOException ex){
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
     }

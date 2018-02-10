@@ -64,7 +64,7 @@ public class Controller {
     @FXML
     private void adminButtonAction() throws IOException {
         if (!"".equals(sNumber.getText())) {
-            if (1 == Integer.parseInt(sNumber.getText())) {
+            if (4 == Integer.parseInt(sNumber.getText())) {
                 statusexit.setText("");
                 status.setText("");
                 sNumber.setText("");
@@ -95,7 +95,7 @@ public class Controller {
     private void backButtonAction() throws IOException {
         stage = (Stage) backButton.getScene().getWindow();
         Parent sample = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        stage.setScene(new Scene(sample ,1024,768));
+        stage.setScene(new Scene(sample ,1280, 1024));
         stage.setAlwaysOnTop(true);
         stage.setMaximized(true);
     }
@@ -108,6 +108,13 @@ public class Controller {
         // do what you have to do
         stage.close();
         System.exit(1);
+    }
+
+    @FXML
+    private void generateReportButton(){
+        if(!"".equals(report.getText())) {
+            db.generate_report(report.getText().split(";"));
+        }
     }
 
     private void give_access() {

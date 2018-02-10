@@ -13,10 +13,10 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception{
         Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
         primaryStage.setTitle("Check mazafaking database");
-        primaryStage.setScene(new Scene(root, 1024, 768));
+        primaryStage.setScene(new Scene(root, 1280, 1024));
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.setAlwaysOnTop(true);
-        primaryStage.setMaximized(true);
+        //primaryStage.setAlwaysOnTop(true);
+        //primaryStage.setMaximized(true);
         KeyHook.blockWindowsKey();
         primaryStage.show();
     }

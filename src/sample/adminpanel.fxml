@@ -33,7 +33,7 @@
             <Insets />
          </GridPane.margin>
       </Button>
-      <Button disable="true" mnemonicParsing="false" text="Выгрузить отчеты" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <Button mnemonicParsing="false" onAction="#generateReportButton" text="Выгрузить отчеты" GridPane.columnIndex="1" GridPane.rowIndex="4" />
       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Необходимо вести номера студенческих билетов студентов отчет по которым вам необходим через &quot;;&quot; " wrappingWidth="343.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
          <font>
             <Font name="System Bold" size="12.0" />
