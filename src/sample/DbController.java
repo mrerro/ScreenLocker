@@ -164,8 +164,8 @@ public class DbController {
     }
 
     private void write_error_to_log(String error) {
-        try (FileWriter writer = new FileWriter("errorlog.txt", false)) {
-            writer.write(error);
+        try (FileWriter writer = new FileWriter("errorlog.txt", true)) {
+            writer.write(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())+" "+error);
             writer.append('\n');
             writer.flush();
         } catch (IOException ex) {
